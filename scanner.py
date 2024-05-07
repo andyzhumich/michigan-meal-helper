@@ -43,13 +43,26 @@ for url in urls:
                                 items = li.find_all('ul', class_='items')
                                 if items:
                                     for item in items:
-                                        item_names = item.find_all('div', class_='item-name')
-                                        for item_name in item_names:
-                                           print(item_name.get_text())
-                                        allergens = item.find_all('div', class_='allergens')
-                                        for allergen in allergens:
-                                            print("ALLERGENS")
-                                            print(allergen.get_text())
+                                        listed_items = item.find_all('li')
+                                        if listed_items:
+                                            for listed_item in listed_items:
+                                                item_names = listed_item.find_all('div', class_='item-name')
+                                                allergens = listed_item.find_all('div', class_='allergens')
+                                                calories = listed_item.find_all('tr', class_='portion-calories thick-border')
+                                                macros = listed_item.find_all('tr', class_='portion-macros thick-border')
+                                                for item_name in item_names:
+                                                    print(item_name.get_text())
+                                                    name = item_name.get_text()
+                                                for allergen in allergens:
+                                                    allergens = allergen.get_text()
+                                                for calorie in calories:
+                                                    print(calorie.get_text())
+                                                    calorie = calorie.get_text()[9::]
+                                        # for item_name in item_names:
+                                        #    print(item_name.get_text())
+                                        # for allergen in allergens:
+                                        #     print("ALLERGENS")
+                                        #     print(allergen.get_text())
                         else: 
                             print("no li_items")
         else:
