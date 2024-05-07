@@ -10,3 +10,16 @@ class Meal:
         self.serving_size = serving_size
         self.time = time
         self.allergens = allergens
+    def display(self):
+        print(self.name)
+        print(self.calories)
+        print(self.protein)
+        print(self.carbs)
+        print(self.fat)
+        print(self.serving_size)
+        print(self.time)
+        print(self.allergens)
+
+
+hi = "hi"
+print("hello", hi)
