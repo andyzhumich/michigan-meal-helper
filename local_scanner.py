@@ -1,17 +1,10 @@
-import requests
+from lxml import html
 import re
-import smtplib
-import os
 from bs4 import BeautifulSoup
 from meal import Meal
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
-# URL of the webpage you want to scrape
-url = 'https://dining.umich.edu/menus-locations/dining-halls/'
-# urls = ['https://dining.umich.edu/menus-locations/dining-halls/' + s for s in ["Bursley", "East Quad", "Markley", "Mosher-Jordan", "North Quad", "South Quad", "Twigs at Oxford"]]
-urls = ['https://dining.umich.edu/menus-locations/dining-halls/' + s for s in ["Twigs at Oxford"]]
 
 calendar = list()
 def search_meal_time(courses_div, preceding_h3, text):
@@ -79,34 +72,33 @@ def search_meal_time(courses_div, preceding_h3, text):
     # else: 
     #     print(f"no {text} found")
 
-for url in urls:
-    try:
-        print("Start")
-        # Send a GET request to the URL
-        response = requests.get(url, verify=False)
-        print("Good response")
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            print("Status code 200")
-            print(url)
-            # Get the HTML content
-            html_content = response.text
-            soup = BeautifulSoup(html_content, 'html.parser')
-            # Find all divs with class="courses"
-            courses_divs = soup.find_all('div', class_='courses')
-            # Iterate through each courses div
-            for courses_div in courses_divs:
-                # Find the preceding h3 tag
-                preceding_h3 = courses_div.find_previous_sibling('h3')
-                # Check if the preceding_h3 contains "Breakfast"
-                for text in ["Breakfast", "Brunch", "Lunch", "Dinner"]:
-                    search_meal_time(courses_div, preceding_h3, text)
-            for meal in calendar:
-                meal.display()
-        else:
-            print(f"Failed to fetch the webpage. Status code: {response.status_code}")
-    except requests.RequestException as e:
-        print(f"Error fetching the webpage: {e}")
+print("Start")
+with open(r'/Users/andy/Downloads/hi.html', "r") as f:
+    page = f.read()
+response = html.fromstring(page)
+# Send a GET request to the URL
+print("Good response")
+# Check if the request was successful (status code 200)
+if True:
+    print("Status code 200")
+    # print()
+    # Get the HTML content
+    html_content = html.tostring(response)
+    soup = BeautifulSoup(html_content, 'html.parser')
+    # Find all divs with class="courses"
+    courses_divs = soup.find_all('div', class_='courses')
+    # Iterate through each courses div
+    for courses_div in courses_divs:
+        # Find the preceding h3 tag
+        preceding_h3 = courses_div.find_previous_sibling('h3')
+        # Check if the preceding_h3 contains "Breakfast"
+        for text in ["Breakfast", "Brunch", "Lunch", "Dinner"]:
+            search_meal_time(courses_div, preceding_h3, text)
+    for meal in calendar:
+        meal.display()
+else:
+    print(f"Failed to fetch the webpage. Status code: {response.status_code}")
+
 
 
 #for some reason, li_items has ALL the items in the station, then each item individually which is why it prints twice
