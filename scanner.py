@@ -14,8 +14,10 @@ url = 'https://dining.umich.edu/menus-locations/dining-halls/'
 urls = ['https://dining.umich.edu/menus-locations/dining-halls/' + s for s in ["Twigs at Oxford"]]
 
 calendar = list()
-def search_meal_time(courses_div, preceding_h3, text):
-    if preceding_h3 and text in preceding_h3.get_text():
+def get_dining_hall(url):
+    return url.split('/')[-1]
+def search_meal_time(courses_div, preceding_h3, time, dining_hall):
+    if preceding_h3 and time in preceding_h3.get_text():
                     # Find all ul tags with class="courses_wrapper" within courses_div
         courses_wrapper_uls = courses_div.find_all('ul', class_='courses_wrapper')
         for courses_wrapper_ul in courses_wrapper_uls:
@@ -38,7 +40,8 @@ def search_meal_time(courses_div, preceding_h3, text):
                                     protein = ""
                                     fat = ""
                                     carbs = ""
-                                    time = text
+                                    dining_hall = dining_hall
+                                    time = time
                                     for item_name in item_names:
                                         name = item_name.get_text()
                                         # print(name)
@@ -66,11 +69,12 @@ def search_meal_time(courses_div, preceding_h3, text):
                                         carbs = nutrition_info[1].get_text()
                                         fat = re.findall(r'\d+', fat)[0]
                                         carbs = re.findall(r'\d+', carbs)[0]
+                                        
                                         # print(fat)
                                         # print(carbs)
                                         # print(text) #this is the time
                                     if name != "":
-                                        this_meal = Meal(name, calorie, protein, carbs, fat, time, this_allergen)
+                                        this_meal = Meal(name, calorie, protein, carbs, fat, time, this_allergen, dining_hall)
                                         calendar.append(this_meal)
                                         # this_meal.display()
 
@@ -82,13 +86,14 @@ def search_meal_time(courses_div, preceding_h3, text):
 for url in urls:
     try:
         print("Start")
+        print(url)
         # Send a GET request to the URL
         response = requests.get(url, verify=False)
         print("Good response")
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
             print("Status code 200")
-            print(url)
+            dining_hall = get_dining_hall(url)
             # Get the HTML content
             html_content = response.text
             soup = BeautifulSoup(html_content, 'html.parser')
@@ -99,8 +104,8 @@ for url in urls:
                 # Find the preceding h3 tag
                 preceding_h3 = courses_div.find_previous_sibling('h3')
                 # Check if the preceding_h3 contains "Breakfast"
-                for text in ["Breakfast", "Brunch", "Lunch", "Dinner"]:
-                    search_meal_time(courses_div, preceding_h3, text)
+                for time in ["Breakfast", "Brunch", "Lunch", "Dinner"]:
+                    search_meal_time(courses_div, preceding_h3, time, dining_hall)
             for meal in calendar:
                 meal.display()
         else:
