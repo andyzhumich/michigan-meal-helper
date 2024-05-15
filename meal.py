@@ -1,5 +1,7 @@
 #defines the meal class, which consists of a name, calories, macros, and serving size
 #meal class definition
+
+import random
 class Meal:
     def __init__(self, name, calories, protein, carbs, fat, time, allergens, dining_hall):
         self.name = name
@@ -19,3 +21,5 @@ class Meal:
         print(self.time)
         print(self.allergens)
         print(self.dining_hall)
+for i in range(10):
+    print(random.randint(0, 10))
