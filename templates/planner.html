@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Planner</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/planner.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f1d32;
+            color: #ffffff;
+        }
+        .container {
+
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 47%;
+        }
+        .section {
+            border: 1px solid #ca9d48;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #0f1d32;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .meal-time-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .meal-time-item {
+            padding: 5px;
+        }
+        .meal-time-item label {
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+        }
+        .meal-time-item input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .allergens-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .allergen-item {
+            padding: 5px;
+            height: fit-content;
+        }
+        .allergen-item label {
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+        }
+        .allergen-item input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+    <h1>Let's Get Started</h1>
+    
+   
+</html>
+<form method ="get" action="/meal-plan/" id="plannerForm">
+    <div class="big-container">
+  
+        <div class="container">
+            <div class="section">
+                <h3 class="section-header">What Time(s)?</h3>
+                <div class="meal-time-grid">
+                    <div class="meal-time-item">
+                        <label for="breakfast">
+                            <input type="checkbox" id="breakfast" name="meal-type" value="breakfast">
+                            Breakfast
+                        </label>
+                    </div>
+                    <div class="meal-time-item">
+                        <label for="brunch">
+                            <input type="checkbox" id="brunch" name="meal-type" value="brunch">
+                            Brunch
+                        </label>
+                    </div>
+                    <div class="meal-time-item">
+                        <label for="lunch">
+                            <input type="checkbox" id="lunch" name="meal-type" value="lunch">
+                            Lunch
+                        </label>
+                    </div>
+                    <div class="meal-time-item">
+                        <label for="dinner">
+                            <input type="checkbox" id="dinner" name="meal-type" value="dinner">
+                            Dinner
+                        </label>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="section">
+                <h3 class="section-header">Allergens</h3>
+                <div class="allergens-grid">
+                    <div class="allergen-item">
+                        <label for="oats">
+                            <input type="checkbox" id="oats" name="allergens" value="oats">
+                            Oats
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="milk">
+                            <input type="checkbox" id="milk" name="allergens" value="milk">
+                            Milk
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="pork">
+                            <input type="checkbox" id="pork" name="allergens" value="pork">
+                            Pork
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="tree-nuts">
+                            <input type="checkbox" id="tree-nuts" name="allergens" value="tree-nuts">
+                            Tree Nuts
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="soy">
+                            <input type="checkbox" id="soy" name="allergens" value="soy">
+                            Soy
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="eggs">
+                            <input type="checkbox" id="eggs" name="allergens" value="eggs">
+                            Eggs
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="deep-fried">
+                            <input type="checkbox" id="deep-fried" name="allergens" value="deep-fried">
+                            Item is Deep Fried
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="peanuts">
+                            <input type="checkbox" id="peanuts" name="allergens" value="peanuts">
+                            Peanuts
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="beef">
+                            <input type="checkbox" id="beef" name="allergens" value="beef">
+                            Beef
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="wheat-barley-rye">
+                            <input type="checkbox" id="wheat-barley-rye" name="allergens" value="wheat-barley-rye">
+                            Wheat/Barley/Rye
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="alcohol">
+                            <input type="checkbox" id="alcohol" name="allergens" value="alcohol">
+                            Alcohol
+                        </label>
+                    </div>
+                    <div class="allergen-item">
+                        <label for="sesame-seed">
+                            <input type="checkbox" id="sesame-seed" name="allergens" value="sesame-seed">
+                            Sesame Seed
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dining-halls-container">
+        <div class="section" id="dining-hall-section">
+        <h3 class="dining-halls-header">Dining Halls</h3>
+        <div class="dining-halls-grid">
+            <div class="dining-hall-item">
+                <label for="Bursley">
+                    <input type="radio" id="Bursley" name="dining-halls" value="Bursley">
+                    Bursley
+                </label>
+            </div>
+            <div class="dining-hall-item">
+                <label for="EQ">
+                    <input type="radio" id="EQ" name="dining-halls" value="EQ">
+                    East Quad
+                </label>
+            </div>
+            <div class="dining-hall-item">
+                <label for="Markley">
+                    <input type="radio" id="Markley" name="dining-halls" value="Markley">
+                    Markley
+                </label>
+            </div>
+            <div class="dining-hall-item">
+                <label for="Mojo">
+                    <input type="radio" id="Mojo" name="dining-halls" value="Mojo">
+                    Mojo
+                </label>
+            </div>
+            <div class="dining-hall-item">
+                <label for="NQ">
+                    <input type="radio" id="NQ" name="dining-halls" value="NQ">
+                    North Quad
+                </label>
+            </div>
+            <div class="dining-hall-item">
+                <label for="SQ">
+                    <input type="radio" id="SQ" name="dining-halls" value="SQ">
+                    South Quad
+                </label>
+            </div>
+            <div class="dining-hall-item">
+                <label for="Twigs">
+                    <input type="radio" id="Twigs" name="dining-halls" value="Twigs">
+                    Twigs
+                </label>
+            </div>
+        </div>
+        </div>
+        <div class="section">
+            <h3 class="dining-halls-header">Calories and Macros</h3>
+
+            <div class="nutrition-input-div" style="display: flex;">
+
+
+            <div class="half">
+                <div class="nutrition-item">
+                    <label for="calories" class="nutrition-label">Calories:</label>
+                    <input type="number" id="calories" name="calories"><br><br>
+                </div>
+                <div class="nutrition-item">
+                    <label for="protein" class="nutrition-label">Protein:</label>
+                    <input type="number" id="protein" name="protein"><br><br>
+                </div>
+            </div>
+            <div class="half">
+                <div class="nutrition-item">
+                    <label for="fat" class="nutrition-label">Fat:</label>
+                    <input type="number" id="fat" name="fat"><br><br>
+                </div>
+                <div class="nutrition-item">
+                    <label for="carbs" class="nutrition-label">Carbs:</label>
+                    <input type="number" id="carbs" name="carbs"><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+    <style>
+    .dining-halls-container {
+        width: 50%;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #0f1d32;
+    }
+    
+    .dining-halls-header {
+        text-align: center;
+        color: #ca9d48;
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+    
+    .dining-halls-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .dining-hall-item {
+        padding: 5px;
+        height: fit-content;
+    }
+    
+    .dining-hall-item label {
+        display: flex;
+        align-items: center;
+        color: #ffffff;
+    }
+    
+    .dining-hall-item input[type="checkbox"] {
+        margin-right: 5px;
+    }
+    </style>
+
+
+    
+
+    <input type="submit">
+    <button type="button" class="DIY" onclick="submitDIY()">Build Your Own Plan</button>
+</form>
+
+<script>
+    function submitDIY() {
+        document.getElementById('calories').value = 0;
+        document.getElementById('protein').value = 0;
+        document.getElementById('fat').value = 0;
+        document.getElementById('carbs').value = 0;
+        document.getElementById('plannerForm').submit();
+    }
+    </script>
+    <script>
+        document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    this.parentElement.style.backgroundColor = '#ca9d48';
+                } else {
+                    this.parentElement.style.backgroundColor = '';
+                }
+            });
+        });
+        document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('input[type="radio"]').forEach(function(r) {
+                    r.parentElement.style.backgroundColor = '#0f1d32';
+                });
+                if (this.checked) {
+                    this.parentElement.style.backgroundColor = '#ca9d48';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('plannerForm').addEventListener('submit', function(event) {
+            const mealTypes = document.querySelectorAll('input[name="meal-type"]:checked');
+            const diningHalls = document.querySelectorAll('input[name="dining-halls"]:checked');
+
+            if (mealTypes.length === 0) {
+                alert('Please select at least one meal time.');
+                event.preventDefault();
+                return false;
+            }
+
+            if (diningHalls.length === 0) {
+                alert('Please select at least one dining hall.');
+                event.preventDefault();
+                return false;
+            }
+            const numericInputs = document.querySelectorAll('input[type="number"]');
+            numericInputs.forEach(function(input) {
+                if (input.value.trim() === '') {
+                    input.value = 0;
+                }
+            });
+
+
+            return true;
+        });
+    </script>

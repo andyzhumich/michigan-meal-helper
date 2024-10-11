@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+body {
+    font-family: 'Playfair Display', serif;
+}
+
+:root {
+    --maize: #FFCB05;
+    --mblue: #130091;
+  }
+  
+
+* {
+    background-color: #0a1321;
+    font-size: 100%;
+   }
+
+h1 {
+    text-align: center;
+    font-size: 1.8em;
+    color: var(--mblue);
+    margin: 0;
+    padding: 0;
+}
+.button {
+    /* center the button */
+    text-decoration: none;
+    background-color: var(--maize);
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.button:hover {
+    background-color: #FFD700;
+}
+
+nav {
+float: right;
+}
+
+header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 10px;
+    padding-top: 5px;
+}
+
+
+
+
+
+.header, header, h1, nav, hr, ul{
+    padding-top: 2px;
+    background-color: var(--maize)
+
+}
+
+h1 {
+    padding-left: 5%;
+    float: left;
+}
+
+
+
+.button {
+    position: relative;
+    top: 50px;
+}
+.background {
+    position: relative; /* Add this line */
+    height: 775px;
+    /* background-image: url("mmp_img.png"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.subheading {
+    position: absolute; /* Add this line */
+    top: 50%; /* Adjust these values to position the element */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the element */
+    background: none;
+    font-size: 30px;
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+h2 {
+    color: white;
+    position: absolute; /* Add this line */
+    top: 30%; /* Adjust these values to position the element */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the element */
+    background: none;
+    font-size: 60px;
+    text-align: center;
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+
+    background: linear-gradient(to right, #ffffff, #ffffff,#aea477, #eedd44);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+footer > p {
+    width: 30%;
+    float: left;
+    position: relative;
+    bottom: 13px;
+    color: #ca9d48;
+}
+#p_right {
+    width:auto;
+    float: right;
+}
+body {
+    margin:0
+}
+p {
+    color: white;
+}

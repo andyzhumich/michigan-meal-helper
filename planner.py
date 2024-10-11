@@ -3,19 +3,31 @@
 import random
 
 #defines the planner class, which consists of a list of meals
-#planner class definition
+#planner class definition]
+
+
 class UserPreferences:
-    def __init__(self, calories, protein, carbs, fat, allergens, breakfast, brunch, lunch, dinner, dining_halls):
-        self.calories = calories #desired calories (int)
-        self.protein = protein
-        self.carbs = carbs
-        self.fat = fat
+    def __init__(self, calories, protein, carbs, fat, allergens, meal_times, dining_halls):
+        self.calories = int(calories) #desired calories (int)
+        self.protein = int(protein)
+        self.carbs = int(carbs)
+        self.fat = int(fat)
         self.allergens = allergens #list of allergens
-        self.breakfast = breakfast #bool for each of these
-        self.brunch = brunch
-        self.lunch = lunch
-        self.dinner = dinner
-        self.number_of_meals = sum([breakfast, brunch, lunch, dinner])
+        self.breakfast = False
+        self.brunch = False
+        self.lunch = False
+        self.dinner = False
+        for i in meal_times:
+            if i == 'breakfast':
+                self.breakfast = True
+            if i == 'brunch':
+                self.brunch = True
+            if i == 'lunch':
+                self.lunch = True
+            if i == 'dinner':
+                self.dinner = True
+
+        self.number_of_meals = len(meal_times) #number of meals the user wants to eat
         self.dining_halls = dining_halls #list of acceptable dining halls
 
 
@@ -94,14 +106,13 @@ class Planner:
         if self.user_preferences.dinner:
             self.plan_individual_meal('Dinner', num)
         list_of_random_meal_plans = list()
-        random_meal_plan = list()
-        for i in range(2): #change this later
+        for x in range(num): 
+            random_meal_plan = list()
             for i in range(self.user_preferences.number_of_meals):
                 index = random.randint((i)*num,(i+1)*num-1)
                 random_meal_plan.append(self.random_meals[index])
             list_of_random_meal_plans.append(random_meal_plan)
-        for i in list_of_random_meal_plans:
-            print(i)
+
         #calculate the difference in calories and macros for each meal plan
         desired_values = [self.user_preferences.calories, self.user_preferences.protein, self.user_preferences.carbs, self.user_preferences.fat]
         for r_m_p in list_of_random_meal_plans:
@@ -109,33 +120,51 @@ class Planner:
             weight_and_meal.append(calculate_weights(r_m_p, desired_values))
             weight_and_meal.append(r_m_p)
             self.list_of_weighted_meal_plans.append(weight_and_meal)
-
+        #sort the meal plans by the weighted sum
+        self.list_of_weighted_meal_plans.sort(key=lambda x: x[0])
 
     def display(self):
-        for item in self.list_of_weighted_meal_plans:
-            print(item[1])
-
+        # for item in self.list_of_weighted_meal_plans:
+        #     print("Weight", item[0])
+        #     for meal in item[1]:
+        #         for m in meal:
+        #             print(m.name)            
+        #structure of list_of_weighted_meal_plans: [weight, [[bf], [lunch], [dinner]]]
+        # print("Best Meal Plan")
+        # print("Weight", self.list_of_weighted_meal_plans[0][0])
+        for i in range(4):
+            print(sum_calories_and_macros(self.list_of_weighted_meal_plans[0][1])[i])
+        for meal_plan in self.list_of_weighted_meal_plans[0][1]:
+            print(meal_plan)
+            for meal in meal_plan:
+                print(meal.name)
+    def to_json(self):
+        json_meal_plan = dict()
+        for meal_plan in self.list_of_weighted_meal_plans:
+            all_meals_in_plan = list()
+            for meal_time in meal_plan[1]:
+                for meal in meal_time:
+                    all_meals_in_plan.append(meal.to_dict())
+            json_meal_plan[meal_plan[0]] = all_meals_in_plan
+        return json_meal_plan
+    def calendar_to_json(self):
+        json_calendar = dict()
+        for meal in self.calendar:
+            json_calendar[meal.name] = meal.to_dict()
+        return json_calendar
+    
 
 def calculate_weights(possible_meal_plan, desired_values) -> float:
     calorie_weight = .15
-    protein_weight = .8
-    carb_weight = .07
-    fat_weight = .06
+    protein_weight = 2.5
+    carb_weight = 1
+    fat_weight = 1
     desired_calories = desired_values[0]
     desired_protein = desired_values[1]
     desired_carbs = desired_values[2]
     desired_fat = desired_values[3]
     weighted_sum = 0
-    total_calories = 0
-    total_protein = 0
-    total_carbs = 0
-    total_fat = 0
-    for meals in possible_meal_plan:
-        for meal in meals:
-            total_calories += int(meal.calories)
-            total_protein += int(meal.protein)
-            total_carbs += int(meal.carbs)
-            total_fat += int(meal.fat)
+    total_calories, total_protein, total_carbs, total_fat = sum_calories_and_macros(possible_meal_plan)
 
     caloric_difference = abs(total_calories - desired_calories)
     protein_difference = total_protein - desired_protein
@@ -145,3 +174,16 @@ def calculate_weights(possible_meal_plan, desired_values) -> float:
     fat_difference = abs(total_fat - desired_fat)
     weighted_sum += caloric_difference * calorie_weight + protein_difference * protein_weight + carb_difference * carb_weight + fat_difference * fat_weight
     return weighted_sum
+
+def sum_calories_and_macros(meal_plan):
+    total_calories = 0
+    total_protein = 0
+    total_carbs = 0
+    total_fat = 0
+    for meals in meal_plan:
+        for meal in meals:
+            total_calories += int(meal.calories)
+            total_protein += int(meal.protein)
+            total_carbs += int(meal.carbs)
+            total_fat += int(meal.fat)
+    return total_calories, total_protein, total_carbs, total_fat

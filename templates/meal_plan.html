@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/meal_plan.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+
+    <title>My Meal Plan</title>
+</head>
+
+<body>
+    <script type='text/javascript' src="{{ url_for('static', filename='js/meal_plan.js') }}"></script>
+    <script type='text/javascript' src="{{ url_for('static', filename='js/filter_menu.js') }}"></script>
+    <script type='text/javascript' src="{{ url_for('static', filename='js/meal_table.js') }}"></script>
+
+
+    <div class="container">
+        <div class=header>
+            <h2 class="title">Your Meals</h2>
+            <button class="edit-button">Edit</button>
+        </div>
+        <div class = "meal-plans">
+            {% for item in meal_types %}
+            <div class="vertical-collumn", id="{{item}}-vert">
+            <div class="individual-meal", id="{{item}}"> 
+                <div class="meal-name-and-foods">
+                    <h3 class="meal-name">{{item.capitalize()}}</h3>
+                    <div class="meal-foods">
+                        {% for meal in meal_plan %}
+                            {% if meal.time.lower() == item %}
+                                <div class="meal">
+                                    <button>{{ meal.name }} x{{ meal_plan[meal] }}</button>
+                                </div>
+                            {% endif %}      
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="meal-nutrition", id="{{item}}-nutrition">
+                    <div class="meal-nutrition-calories", id="{{item}}-nutrition-calories"></div>
+                    <div class="meal-nutrition-protein", id="{{item}}-nutrition-protein"></div>
+                    <div class="meal-nutrition-fat", id="{{item}}-nutrition-fat"></div>
+
+                    <div class="meal-nutrition-carbs", id="{{item}}-nutrition-carbs"></div>
+
+    
+    
+                </div>
+
+
+
+    
+            </div>
+            
+            <script>
+                function positionEditButton() {
+                    const editButton = document.querySelector('.edit-button');
+                    editButton.style.width = '70px';
+                    const lastMeal = document.querySelectorAll('.meal-name')[document.querySelectorAll('.meal-name').length - 1];
+                    
+                    function updatePosition() {
+                        const mealRect = lastMeal.getBoundingClientRect();
+                        editButton.style.position = 'absolute';
+                        editButton.style.left = mealRect.x + 185 + 'px';
+                    }
+            
+                    function animate() {
+                        updatePosition();
+                        requestAnimationFrame(animate);
+                    }
+            
+                    // Initial positioning
+                    updatePosition();
+            
+                    // Start the animation loop
+                    requestAnimationFrame(animate);
+            
+                    // Observe changes to the lastMeal element
+                    const observer = new MutationObserver(updatePosition);
+                    observer.observe(lastMeal, { attributes: true, childList: true, subtree: true });
+                }
+            
+                // Call the function to position the edit button
+                positionEditButton();
+            </script>                    
+            
+        </div>
+
+        {% endfor %}
+
+    </div>
+    <h3 class="total-nutrition-title">Total Nutrition</h3>
+
+    <div id="total-nutrition">
+        <div class="total-calories"></div>
+        <div class="total-protein"></div>
+        <div class="total-fat"></div>
+
+        <div class="total-carbs"></div>
+    </div>
+    </div>
+    <div class="add-meals">
+        <div class="add-meal-header">
+            <input class="search-bar" placeholder="Search meals..."></input>
+            <button class="filter-button">Filter</button>
+        </div>
+        <div class="filter-menu"> 
+            <div class="filter-options">
+                <div class="filter-options-header">
+                    <label><input type="radio" name="time" class="filter-option" value="All" checked> All</label>
+
+                    <label><input type="radio" name="time" class="filter-option" value="Breakfast"> Breakfast</label>
+                    <label><input type="radio" name="time" class="filter-option" value="Brunch"> Brunch</label>
+                    <label><input type="radio" name="time" class="filter-option" value="Lunch"> Lunch</label>
+                    <label><input type="radio" name="time" class="filter-option" value="Dinner"> Dinner</label>
+                </div>
+                <div class="filter-slider-header">      
+                    <div class="slider_div" id="cal_slider">
+                        <p>
+                            <label for="amount">Calories:</label>
+                            <input class="amount" type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                        </p> 
+                            <div class="range" id="cal-range"></div>
+                        </div>
+                        <script>
+                            replace_amount_id("cal");
+                        </script>
+                    <div class="slider_div" id="protein_slider">
+                        <p>
+                            <label for="amount">Protein:</label>
+                            <input class="amount" type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                        </p> 
+                            <div class="range" id="protein-range"></div>
+                        </div>
+                        <script>
+                            replace_amount_id("protein");
+
+                        </script>
+                    <div class="slider_div" id="carb_slider">
+                        <p>
+                            <label for="amount">Carbs:</label>
+                            <input class="amount" type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                        </p> 
+                            <div class="range" id="carb-range"></div>
+                        </div>
+                        <script>
+                            replace_amount_id("carb");
+
+                        </script>
+                    <div class="slider_div" id="fat_slider">
+                        <p>
+                            <label for="amount">Fat:</label>
+                            <input class="amount" type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                        </p> 
+                            <div class="range" id="fat-range"></div>
+                        </div>
+                        <script>
+                            replace_amount_id("fat");
+                            init_sliders();
+
+                        </script>
+                </div>
+            </div>
+        </div>
+        <script>
+            var dropdownToggle = $('.filter-button');
+            var dropdown = $('.filter-menu');
+            $(function() {
+                dropdown.slideUp();
+                dropdownToggle.on('click', function() {
+                    dropdown.stop(true).slideToggle();
+                });
+            });
+        </script>
+        <table class="add-meal-table sortable">
+            <thead>
+                <tr>
+                  <th aria-sort = "ascending">
+                    <button>
+                     Name
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </th>
+                  <th class="num">
+                    <button>
+                      Calories
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </th>
+                  <th class="num">
+                    <button>
+                      Protein
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </th>
+                  <th class="num">
+                    <button>
+                        Fat
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </th>
+                  <th class="num">
+                    <button>
+                        Carbs
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </th>
+                  <th class="time">
+                    <button>
+                        Time
+                      <span aria-hidden="true"></span>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="add-table-body">
+               
+              </tbody>
+        </table>
+        <!-- <div class="add-meal-list"> 
+            <div class="add-meal-div">
+                <div class="add-meal-name-header">Name</div>
+                <div class="add-meal-calorie-header">Calories</div>
+                <div class="add-meal-protein-header">Protein</div>
+                <div class="add-meal-carb-header">Carbs</div>
+                <div class="add-meal-fat-header">Fat</div>
+                <div class="add-meal-time-header">Time</div>
+            </div>
+        </div> 
+    -->
+
+    </div>
+
+    
+    
+</body>
+
+<script>
+    var meal_json = JSON.parse('{{ meal_json | tojson | safe}}');
+    var all_meals = JSON.parse('{{ all_meals | tojson | safe}}');
+</script>    
+<script>
+    one_meal_check();
+    var editBool = false;
+    var Indexes = new mealIndexes();
+    Indexes.print();
+    var mealJson = initializeMealPlan(meal_json);
+    var allMeals = initializeAllMeals(all_meals);
+    console.log(mealJson);
+    console.log(Object.keys(mealJson).length);
+    console.log(allMeals);
+    var mealDict = Object.values(mealJson);
+    displayMealsFunction(Indexes, mealJson, false);
+
+
+
+    createEditMenu();
+    load_table();
+
+
+
+
+</script>
+</html>

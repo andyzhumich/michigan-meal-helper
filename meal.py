@@ -21,5 +21,16 @@ class Meal:
         print(self.time)
         print(self.allergens)
         print(self.dining_hall)
-for i in range(10):
-    print(random.randint(0, 10))
+    def to_list(self):
+        return [self.name, self.calories, self.protein, self.carbs, self.fat, self.time, self.allergens, self.dining_hall]
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'calories': self.calories,
+            'protein': self.protein,
+            'carbs': self.carbs,
+            'fat': self.fat,
+            'time': self.time,
+            'allergens': self.allergens,
+            'dining_hall': self.dining_hall
+        }
