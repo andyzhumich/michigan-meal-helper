@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, session
-from local_scanner import Scanner
+from scanner_module import Scanner
 from planner import Planner, UserPreferences
 import json
 app = Flask(__name__)
@@ -44,7 +44,7 @@ def meal_plan():
         allergens = request.args.getlist('allergens')
         # print(calories, protein, fat, carbs, meal_type, dining_halls, allergens)
     scanner = Scanner()
-    scanner.scan()
+    scanner.scan(dining_halls, meal_type)
     user_pref = UserPreferences(calories, protein, carbs, fat, allergens, meal_type, dining_halls)
     planner = Planner(scanner.calendar, user_pref)
     planner.filter()

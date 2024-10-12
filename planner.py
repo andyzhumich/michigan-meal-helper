@@ -86,7 +86,9 @@ class Planner:
             while current_calories < goal_calories * .9:
                 random_meal = meals_in_this_time[random.randint(0, len(meals_in_this_time) - 1)]
                 possible_meal_plan.append(random_meal)
-                current_calories += int(random_meal.calories)
+                # print(random_meal.name)
+                if (random_meal.calories != ''):
+                    current_calories += int(random_meal.calories)
             self.random_meals.append(possible_meal_plan)
 
 
@@ -182,8 +184,9 @@ def sum_calories_and_macros(meal_plan):
     total_fat = 0
     for meals in meal_plan:
         for meal in meals:
-            total_calories += int(meal.calories)
-            total_protein += int(meal.protein)
-            total_carbs += int(meal.carbs)
-            total_fat += int(meal.fat)
+            if (meal.calories != ''):
+                total_calories += int(meal.calories)
+                total_protein += int(meal.protein)
+                total_carbs += int(meal.carbs)
+                total_fat += int(meal.fat)
     return total_calories, total_protein, total_carbs, total_fat
